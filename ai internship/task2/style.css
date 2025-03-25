@@ -1,0 +1,100 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Pacifico&family=Fredoka+One&family=Chewy&family=Orbitron&family=Poppins:wght@300;400;700&display=swap');
+
+/* Body Background */
+body {
+    font-family: 'Dancing Script', cursive;
+    background: linear-gradient(135deg, #ff6b6b, #f7d794);
+    text-align: center;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    color: #9f6767;
+}
+
+/* Container */
+.container {
+    background: rgb(89, 172, 255);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(237, 181, 181, 0.2);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Public Space (Fancy & Handwritten) */
+h2 {
+    font-family: 'Pacifico', cursive;
+    font-size: 32px;
+    color: #ff3d68;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Post Section (Playful & Fun) */
+.post {
+    background: #fff;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    animation: fadeIn 0.5s ease-in-out;
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+/* Input Fields (Fancy Handwritten) */
+textarea, input {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #ff758c;
+    font-family: 'Dancing Script', cursive;
+    font-size: 18px;
+}
+
+/* Buttons: Stylish & Modern */
+button {
+    margin-top: 10px;
+    padding: 12px;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    color: rgb(239, 49, 220);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+}
+
+/* Like & Comment Buttons (Stylish & Modern) */
+.like, .comment {
+    margin-right: 10px;
+    cursor: pointer;
+    color: #ff758c;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.like:hover, .comment:hover {
+    color: #ff3d68;
+}
+
+/* Comments Section (Futuristic & Tech) */
+.comment-box {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: #34495e;
+    background: #62d5f1;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+}

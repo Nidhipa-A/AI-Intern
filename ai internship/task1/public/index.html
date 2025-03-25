@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reward System</title>
+    <style>
+        body {
+          font-family: sans-serif;
+          margin: 20px;
+        }
+      
+        h1, h2 {
+          color: #3366cc;
+        }
+      
+        input[type="text"], input[type="number"] {
+          padding: 8px;
+          margin: 5px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+      
+        button {
+          padding: 10px 15px;
+          background-color: #4CAF50; /* Green */
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin: 5px;
+        }
+      
+        button:hover {
+          background-color: #3e8e41; /* Darker green */
+        }
+      
+        #output {
+          margin-top: 20px;
+          border: 1px solid #eee;
+          padding: 10px;
+          background-color: #f9f9f9;
+          border-radius: 4px;
+        }
+      
+          .popup {
+              position: fixed; /* Stay in place */
+              z-index: 1; /* Sit on top */
+              left: 0;
+              top: 0;
+              width: 100%; /* Full width */
+              height: 100%; /* Full height */
+              overflow: auto; /* Enable scroll if needed */
+              background-color: rgb(0,0,0); /* Fallback color */
+              background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+          }
+      
+          .popup-content {
+              background-color: #fefefe;
+              margin: 15% auto; /* 15% from the top and centered */
+              padding: 20px;
+              border: 1px solid #888;
+              width: 80%; /* Could be more or less, depending on screen size */
+              border-radius: 5px;
+              text-align: center;
+          }
+      
+          .close {
+              color: #aaa;
+              float: right;
+              font-size: 28px;
+              font-weight: bold;
+          }
+      
+          .close:hover,
+          .close:focus {
+              color: black;
+              text-decoration: none;
+              cursor: pointer;
+          }
+      
+      </style>
+</head>
+<body>
+    <h1>Reward System</h1>
+
+    <h2>Create User</h2>
+    <input type="text" id="createUserUsername" placeholder="Username">
+    <button onclick="createUser()">Create</button>
+
+    <h2>Get User Points</h2>
+    <input type="text" id="getUserUsername" placeholder="Username">
+    <button onclick="getUserPoints()">Get Points</button>
+
+    <h2>Add Answer</h2>
+    <input type="text" id="answerUsername" placeholder="Username">
+    <input type="text" id="answerText" placeholder="Answer">
+    <button onclick="addAnswer()">Add Answer</button>
+
+    <h2>Upvote Answer</h2>
+    <input type="text" id="upvoteAnswerId" placeholder="Answer ID">
+    <button onclick="upvoteAnswer()">Upvote</button>
+
+    <h2>Downvote Answer</h2>
+    <input type="text" id="downvoteAnswerId" placeholder="Answer ID">
+    <button onclick="downvoteAnswer()">Downvote</button>
+
+    <h2>Remove Answer</h2>
+    <input type="text" id="removeAnswerId" placeholder="Answer ID">
+    <button onclick="removeAnswer()">Remove Answer</button>
+
+    <h2>Transfer Points</h2>
+    <input type="text" id="transferFrom" placeholder="Your Username">
+    <input type="text" id="transferTo" placeholder="Recipient Username">
+    <input type="number" id="transferAmount" placeholder="Amount">
+    <button onclick="transferPoints()">Transfer</button>
+
+    <div id="output"></div>
+
+    <script>
+        const outputDiv = document.getElementById('output');
+    
+        function showPopup(message) {
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+    
+            const popupContent = document.createElement('div');
+            popupContent.className = 'popup-content';
+    
+            const closeButton = document.createElement('span');
+            closeButton.className = 'close';
+            closeButton.innerHTML = '&times;';
+            closeButton.onclick = function() {
+                popup.style.display = 'none';
+            };
+    
+            const messageText = document.createElement('p');
+            messageText.textContent = message;
+    
+            popupContent.appendChild(closeButton);
+            popupContent.appendChild(messageText);
+            popup.appendChild(popupContent);
+    
+            document.body.appendChild(popup);
+            popup.style.display = 'block';
+        }
+    
+        async function createUser() {
+            const username = document.getElementById('createUserUsername').value;
+            const response = await fetch('/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username })
+            });
+            const data = await response.json();
+            showPopup(JSON.stringify(data));
+        }
+    
+        async function getUserPoints() {
+            const username = document.getElementById('getUserUsername').value;
+            const response = await fetch(`/users/${username}`);
+            const data = await response.json();
+            showPopup(JSON.stringify(data));
+        }
+    
+        async function addAnswer() {
+            const username = document.getElementById('answerUsername').value;
+            const answerText = document.getElementById('answerText').value;
+            const response = await fetch('/answers', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, answerText })
+            });
+            const data = await response.json();
+            showPopup(JSON.stringify(data));
+        }
+    
+        async function upvoteAnswer() {
+            const answerId = document.getElementById('upvoteAnswerId').value;
+            const response = await fetch(`/answers/${answerId}/upvote`, { method: 'POST' });
+            const data = await response.json();
+            showPopup(JSON.stringify(data));
+        }
+    
+        async function downvoteAnswer() {
+            const answerId = document.getElementById('downvoteAnswerId').value;
+            const response = await fetch(`/answers/${answerId}/downvote`, { method: 'POST' });
+            const data = await response.json();
+            showPopup(JSON.stringify(data));
+        }
+    
+        async function removeAnswer() {
+            const answerId = document.getElementById('removeAnswerId').value;
+            const response = await fetch(`/answers/${answerId}`, { method: 'DELETE' });
+            const data = await response.json();
+            showPopup(JSON.stringify(data));
+        }
+    
+        async function transferPoints() {
+            const from = document.getElementById('transferFrom').value;
+            const to = document.getElementById('transferTo').value;
+            const amount = parseInt(document.getElementById('transferAmount').value);
+            const response = await fetch(`/users/${from}/transfer`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ recipient: to, amount })
+            });
+            const data = await response.json();
+            showPopup(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>
